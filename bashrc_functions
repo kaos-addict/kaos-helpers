@@ -14,7 +14,7 @@ tar czf - ${1} | ssh ${2} tar xzf - -C ${3}
 }
 
 # Extract any archive file
-extract() {
+ex() {
     if [ -f $1 ] ; then
         case $1 in
             *.tar.bz2)  tar xf $1      ;;
@@ -43,11 +43,6 @@ pathadd() {
 # Example: add ~/bin to user path
 if [ -d $HOME/bin ];then pathadd $HOME/bin;fi
 
-# Clean old kernel ubuntu/debian
-#cleankernels() {
-#    dpkg -l 'linux-*' | sed '/^ii/!d;/'"$(uname -r | sed "s/\(.*\)-\([^0-9]\+\)/\1/")"'/d;s/^[^ ]* [^ ]* \([^ ]*\).*/\1/;/[0-9]/!d' | xargs sudo apt-get -y purge
-#}
-
 # Create sh alias for each script.sh in $HOME/bin
 #for i in $(ls ~/bin | grep ".sh"); do alias s_$i='sh ~/bin/$i';done;
 
@@ -70,10 +65,10 @@ replace () {
     map s/$a/$b/,@t;open(W,">$f");print W @t;close(W)}' "$@"
 }
 
-# Make cp with .ori
+# Make cp with .ori backup
 cpb() { cp $@{,.ori} ;}
 
-# Copy directory over ssh as: pussh Myfolder ~/Myremotefolder example.command
+# Copy directory over ssh as: pussh Myfolder ~/Myremotefolder example.com
 pussh(){
 tar czf - "$1" | ssh @$3 tar xzf - -C $2
 }
@@ -105,7 +100,7 @@ createTunnel()
 }
 
 ### Man pages
-# MP via zenity see also /usr/bin/yaman for more complete
+# MP via zenity
 zman () {
 man $1 | zenity --text-info --title="Page de manuel" --width=800 --height=800
 }
