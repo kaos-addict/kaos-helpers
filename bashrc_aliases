@@ -1,3 +1,4 @@
+# taken back from bashrc kaos defaults
 alias grep='grep --color=tty -d skip'
 alias cp="cp -i"                          # confirm before overwriting something
 alias df='df -h'                          # human-readable sizes
