@@ -1,3 +1,12 @@
+alias grep='grep --color=tty -d skip'
+alias cp="cp -i"                          # confirm before overwriting something
+alias df='df -h'                          # human-readable sizes
+alias free='free -m'                      # show sizes in MB
+alias vp='nano PKGBUILD'
+alias vs='nano SPLITBUILD'
+alias upd='mirror-check && sudo pacman -Syu'
+alias dvdburn='growisofs -Z /dev/sr0 -R -J'
+
 # Nicer ls's
 alias ll='ls -l --group-directories-first --time-style=+"%d.%m.%Y %H:%M" --color=auto -F'
 alias la='ls -la --group-directories-first --time-style=+"%d.%m.%Y %H:%M" --color=auto -F'
@@ -56,9 +65,5 @@ alias ducks='du -cks *|sort -rn|head -11'
 # Clean comments and emty lines:
 alias cleancom="sed -i 's/#.*$//;/^$/d'
 
-### Personal shortcuts:
-# Rsyncs
-alias ziksync='rsync -r -t -v --progress --delete --size-only -l --partial -z -s --exclude '*.wav' /media/Data/Musique/ youm:/home/mermouy/Musique'
-
 # K@os: Create basic PKGBUILD files
-alias mkpkg="wget https://gist.githubusercontent.com/kaos-addict/0a8b0f46713a9dadd4c2/raw/bf0f44cd2c243029acf1ff1397e009b2fc255d19/kaos-pkgbuild-commented-proto -O PKGBUILD && cleancom PKGBUILD && kate PKGBUILD"
+alias mkpkg="wget https://raw.githubusercontent.com/kaos-addict/kaos-helpers/master/PKGBUILD.commented.kaos.proto -O PKGBUILD && cgrep PKGBUILD && kate PKGBUILD"
