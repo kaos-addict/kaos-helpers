@@ -14,7 +14,7 @@ tar czf - ${1} | ssh ${2} tar xzf - -C ${3}
 }
 
 # Extract any archive file
-ex() {
+extract() {
     if [ -f $1 ] ; then
         case $1 in
             *.tar.bz2)  tar xf $1      ;;
@@ -40,11 +40,12 @@ pathadd() {
         PATH="${PATH:+"$PATH:"}$1"
     fi
 }
+
 # Example: add ~/bin to user path
 if [ -d $HOME/bin ];then pathadd $HOME/bin;fi
 
 # Create sh alias for each script.sh in $HOME/bin
-#for i in $(ls ~/bin | grep ".sh"); do alias s_$i='sh ~/bin/$i';done;
+for i in $(ls ~/bin | grep ".sh"); do alias s_$i='sh ~/bin/$i';done;
 
 # Delete missing files of a m3u playlist
 purgem3u() {
@@ -99,26 +100,35 @@ createTunnel()
   ssh -N -f $user@$host -L ${localPort}:${host}:${remotePort}
 }
 
-### Man pages
-# MP via zenity
-zman () {
-man $1 | zenity --text-info --title="Page de manuel" --width=800 --height=800
+#  Ping a host until it responds, then play a sound, then exit
+speakwhenup() { 
+[ "$1" ] && PHOST="$1" || return 1
+until ping -c1 -W2 $PHOST >/dev/null 2>&1 
+do 
+  sleep 5s 
+done
+espeak "$PHOST is up" >/dev/null 2>&1
 }
 
-# MP Search
-mans ()
-{
+### Man pages
+# Search
+mans () {
     man $1 | grep -iC2 --color=always $2 | less
+}
+
+# Needs qarma (zenity like)
+qman () {
+    man $1 | qarma --text-info --title="Man Page" --width=800 --height=800
 }
 ###
 
-LimiT()
-{
-# Process name to check out
-NAME=$1
-# Memory limit, in Ko
-#MEM_LIM=500000
-MEM_LIM=$2
+# Limit memory usage of one process (needs qarma)
+# Use first argument as the process to limit 
+# Optionaly add second arg the memory limit or default is 500M
+LimiT() {
+NAME=$1			# Process name to check out
+MEM_LIM=500000		# Memory limit, in Ko
+MEM_LIM=$2		# If no limit specified
 
 while [ 1 = 1 ]
 do
@@ -130,12 +140,12 @@ do
 
 	  if [ $VALMEM -gt $MEM_LIM ]
 	  then
-		 zenity --question --text "$NAME reaches $VALMEM KB" --ok-label "Kill $NAME" --cancel-label "Remember later"
+		 qarma --question --text "$NAME reaches $VALMEM KB" --ok-label "Kill $NAME" --cancel-label "Remember later"
 		 RETOUR="$?"; # annuler = 1   ;   valider = 0
 			if [ $RETOUR = 0 ]
 			then
 			   kill -9 `pgrep $NAME`;
-			   zenity --info --text "$NAME successfully killed"
+			   qarma --info --text "$NAME successfully killed"
 			   exit 0
 			fi
 	  fi
@@ -145,15 +155,12 @@ done
 exit 0
 }
 
-#  Ping a host until it responds, then play a sound, then exit
-speakwhenup() { 
-[ "$1" ] && PHOST="$1" || return 1
-until ping -c1 -W2 $PHOST >/dev/null 2>&1 
-do 
-  sleep 5s 
-done
-espeak "$PHOST is up" >/dev/null 2>&1
-}
+### Kaos-only:
 
-# Display all zombie process IDs
- #ps axo pid=,stat= | awk '$2~/^Z/ { print $1 }'
+# Create new kcp package basics need pkgname as argument:
+mkpkg() {
+    if [ -z "$1" ] || [ -d "./$1" ];then exit 1;fi
+    mkdir "$1" && cd "$1" && pckcp -gc && sed -i "s/kaos-pkgbuild-proto/$1/g" PKGBUILD
+    echo -e "#$1\n" > README.md
+    kate -e utf8 -n README.md PKGBUILD
+}

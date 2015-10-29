@@ -34,7 +34,8 @@
 #The name(s) of the package(s). 
 # This should consist of lowercase alphanumerics and any of the following characters: @, ., _, +, -
 # (at symbol, dot, underscore, plus, hyphen). 
-# Names are not allowed to start with hyphens. For the sake of consistency, pkgname should match the name of the source tarball of the software
+# Names are not allowed to start with hyphens. 
+#For the sake of consistency, pkgname should match the name of the source tarball of the software
 pkgname=kaos-pkgbuild-proto
 
 # The version of the package. This should be the same as the version released by the author of the package.
@@ -74,13 +75,14 @@ makedepends=()
 checkdepends=()
 
 # An array of packages that are not needed for the software to function, but provide additional features. 
-#optdepends=()
+optdepends=()
 
 # An array of files that can contain user-made changes and should be preserved during upgrade or removal.
 backup=()
 
-# The name of the .install script to be included in the package. This should be the same as pkgname.
-install=kaos-pkgbuild-proto
+# The name of the .install script to be included in the package. 
+# This should be the same as pkgname.
+install=$pkgname
 
 # The name of the package changelog. If any...
 #changelog=
@@ -91,8 +93,9 @@ source=("http://yoursources.com/$pkgname-$pkgver.tar.gz")
  
 # This variable is array whose items are checksum strings that will be used to verify the integrity
 # of the respective files in the source array.
-sha512sums=('fqdkmlghpimqrfhvjfqhbmoubghqwùgpifhùbqhùqwdgbhnqsùlbhvqlhnglqkdhvbnùhbdgvnùlq<bhngùlqwhgvljbnj<bgjhcd fsv')
+sha512sums=('')
 
+# Classical configure/make/make install with patch
 prepare() {
  cd "$pkgname-$pkgver"
  patch -p1 -i "$srcdir/$pkgname-$pkgver.patch"
