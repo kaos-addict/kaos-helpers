@@ -3,11 +3,11 @@
 	    . /etc/bash_completion
 fi
 
-# Even with sudo command:
-complete -cf sudo
-
 # Allow root windows:
 xhost +local:root > /dev/null 2>&1
+
+# Complete even sudo commands:
+complete -cf sudo
 
 # Some shell options:
 shopt -s cdspell
@@ -20,12 +20,13 @@ shopt -s histappend
 shopt -s hostcomplete
 shopt -s nocaseglob
 
-# Few environment variables:
-export HISTSIZE=10000
-export HISTFILESIZE=${HISTSIZE}
-export HISTCONTROL=ignoreboth
-export EDITOR=nano
-export VISUAL=nano
+# Few environment variables (edit to your preferences):
+export HISTSIZE=10000		# Nb of lines in history
+export HISTFILESIZE=${HISTSIZE}	# Limit also history filesize
+export HISTCONTROL=ignoreboth	# 
+export EDITOR=nano		# Some scripts and applications use this as default terminal text editor
+export VISUAL=nano		# "
+export XEDITOR=kate		# Added a X version
 
 # Prompt:
 PS1='[\u@\h \W]\$ '
