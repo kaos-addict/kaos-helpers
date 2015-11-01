@@ -50,7 +50,7 @@ pkgrel=1
 # The description of the package. This is recommended to be 80 characters or less and should not include the package name
 # in a self-referencing way, unless the application name differs from the package name.
 # For example, use pkgdesc="Text editor for X11" instead of pkgdesc="Nedit is a text editor for X11".
-pkgdesc="Just a commented exemple of PKGBUILD for KaoS Linux"
+pkgdesc="Commented PKGBUILD example for KaoS Linux"
 
 # KaoS only support x86_64 so next line shouldn't be changed
 arch=('x86_64')
