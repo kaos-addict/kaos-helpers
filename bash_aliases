@@ -42,7 +42,7 @@ alias ducks='du -cks *|sort -rn|head -11'
 ##TODO: what's best of these two:
 
 # Clean comments and empty lines:
-alias cleancom="sed -i 's/#.*$//;/^$/d'
+alias cleancom="sed -i 's/#.*$//;/^$/d'"
 
 # Get off comments
 alias cgrep="grep -E -v '^(#|$|;)'"
