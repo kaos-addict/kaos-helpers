@@ -82,14 +82,14 @@ backup=()
 
 # The name of the .install script to be included in the package. 
 # This should be the same as pkgname.
-install=$pkgname
+install=${pkgname}.install
 
 # The name of the package changelog. If any...
 #changelog=
 
 # An array of files needed to build the package. It must contain the location of the software source, 
 # which in most cases is a full HTTP or FTP URL. The previously set variables pkgname and pkgver can be used here.
-source=("http://yoursources.com/$pkgname-$pkgver.tar.gz")
+source=("http://yoursources.com/${pkgname}-${pkgver}.tar.gz")
  
 # This variable is array whose items are checksum strings that will be used to verify the integrity
 # of the respective files in the source array.
@@ -97,22 +97,22 @@ sha512sums=('')
 
 # Classical configure/make/make install with patch
 prepare() {
- cd "$pkgname-$pkgver"
- patch -p1 -i "$srcdir/$pkgname-$pkgver.patch"
+ cd "${pkgname}-${pkgver}"
+ patch -p1 -i "$srcdir/${pkgname}-${pkgver}.patch"
 }
 
 build() {
- cd "$pkgname-$pkgver"
+ cd "${pkgname}-${pkgver}"
  ./configure --prefix=/usr
  make
 }
 
 check() {
- cd "$pkgname-$pkgver"
+ cd "${pkgname}-${pkgver}"
  make -k check
 }
 
 package() {
- cd "$pkgname-$pkgver"
- make DESTDIR="$pkgdir/" install
+ cd "${pkgname}-${pkgver}"
+ make DESTDIR="${pkgdir}/" install
 }
