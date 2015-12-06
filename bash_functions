@@ -163,10 +163,10 @@ mkpkg() {
 }
 
 # Journald display helper
-yournal() {
-journalctl "${@}" | yad --text-info \
---height 700 --width 600 \
---image-path=/usr/share/icons/hicolor/16x16/apps \
---window-icon=kdeapp --image=kaos --title=KalOg \
---center --button=Close --wrap --show-uri
-}
+# yournal() {
+# journalctl "${@}" | yad --text-info \
+# --height 700 --width 600 \
+# --image-path=/usr/share/icons/hicolor/16x16/apps \
+# --window-icon=kdeapp --image=kaos --title=KalOg \
+# --center --button=Close --wrap --show-uri
+# }
