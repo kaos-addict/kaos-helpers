@@ -155,10 +155,11 @@ exit 0
 
 # Create new kcp package basics need pkgname as argument:
 mkpkg() {
-    if [ -z "$1" ] || [ -d "./$1" ];then exit 1;fi
-    mkdir "$1" && cd "$1" && pckcp -gc && sed -i "s/kaos-pkgbuild-proto/$1/g" PKGBUILD
-    echo -e "#$1\n" > README.md
-    kate -n README.md PKGBUILD
+    [ -z "$1" ] || [ -d "$1" ] && return 1
+    mkdir -p $1 && cd $1 && pckcp -gc && sed -i "s/kaos-pkgbuild-proto/${1}/g" PKGBUILD
+    echo -e "# $1\n" > README.md
+    kate -n README.md PKGBUILD &
+    return 0;
 }
 
 # Journald display helper
@@ -167,5 +168,5 @@ journalctl "${@}" | yad --text-info \
 --height 700 --width 600 \
 --image-path=/usr/share/icons/hicolor/16x16/apps \
 --window-icon=kdeapp --image=kaos --title=KalOg \
---center --button=Close --wrap --tail --show-uri
+--center --button=Close --wrap --show-uri
 }
