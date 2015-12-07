@@ -1,4 +1,4 @@
-### Terminal
+### Terminal:
 # Add folder to path if not already exported
 pathadd() {
     if [ -d "$1" ] && [[ ":$PATH:" != *":$1:"* ]]; then
@@ -19,8 +19,8 @@ notime(){
 
 ### Text
 # Find text in any file (find grep)
-fgr() {
-find . -name "${2:-*}" | xargs grep -l "$1"
+    fgr() {
+    find . -name "${2:-*}" | xargs grep -l "$1"
 }
 
 # Replace a text in all given files
@@ -31,7 +31,7 @@ replace () {
 
 ### Utilities
 # Extract any archive file
-extract() {
+ex() {
     if [ -f $1 ] ; then
         case $1 in
             *.tar.bz2)  tar xf $1      ;;
@@ -63,16 +63,16 @@ purgem3u() {
     mv $tmp $m3u
   done
 }
+### :Terminal
 
-### Network
+### Network:
 # Copy directory over ssh as: pussh Myfolder ~/Myremotefolder example.com
 pussh(){
-tar czf - "${1}" | ssh @${3} tar xzf - -C ${2}
+    tar czf - "${1}" | ssh @${3} tar xzf - -C ${2}
 }
 
 # Create ssh tunnel as: createTunnel user host.com localport remoteport 
-createTunnel()
-{
+createTunnel() {
   if [ $# -eq 3 ]
   then
     user=$1
@@ -96,7 +96,7 @@ createTunnel()
   ssh -N -f $user@$host -L ${localPort}:${host}:${remotePort}
 }
 
-#  Ping a host until it responds, then play a sound, then exit
+#  Ping a host until it responds, then play a sound, then exit (need espeak)
 speakwhenup() { 
 [ "$1" ] && PHOST="$1" || return 1
 until ping -c1 -W2 $PHOST >/dev/null 2>&1 
@@ -105,8 +105,9 @@ do
 done
 espeak "$PHOST is up" >/dev/null 2>&1
 }
+### :Network
 
-### Man pages
+### Man pages:
 # Search
 mans () {
     man $1 | grep -iC2 --color=always $2 | less
@@ -116,9 +117,61 @@ mans () {
 qman () {
     man $1 | qarma --text-info --title="Man Page" --width=800 --height=800
 }
-###
 
-# Limit memory usage of one process (needs qarma)
+
+man() {
+	env \
+	LESS_TERMCAP_mb=$(printf "\e[1;34m") \
+	LESS_TERMCAP_md=$(printf "\e[1;34m") \
+	LESS_TERMCAP_me=$(printf "\e[0m") \
+	LESS_TERMCAP_se=$(printf "\e[0m") \
+	LESS_TERMCAP_so=$(printf "\e[1;30m") \
+	LESS_TERMCAP_ue=$(printf "\e[0m") \
+	LESS_TERMCAP_us=$(printf "\e[1;36m") \
+	man "$@"
+}
+### :Man Pages
+
+### Various Helpers:
+colors() {
+	local fgc bgc vals seq0
+
+	printf "Color escapes are %s\n" '\e[${value};...;${value}m'
+	printf "Values 30..37 are \e[33mforeground colors\e[m\n"
+	printf "Values 40..47 are \e[43mbackground colors\e[m\n"
+	printf "Value  1 gives a  \e[1mbold-faced look\e[m\n\n"
+
+	# foreground colors
+	for fgc in {30..37}; do
+		# background colors
+		for bgc in {40..47}; do
+			fgc=${fgc#37} # white
+			bgc=${bgc#40} # black
+
+			vals="${fgc:+$fgc;}${bgc}"
+			vals=${vals%%;}
+
+			seq0="${vals:+\e[${vals}m}"
+			printf "  %-9s" "${seq0:-(default)}"
+			printf " ${seq0}TEXT\e[m"
+			printf " \e[${vals:+${vals+$vals;}}1mBOLD\e[m"
+		done
+		echo; echo
+	done
+}
+### :Various Helpers
+
+### Administration:
+# Journald display helper
+yournal() {
+journalctl "${@}" | yad --text-info \
+--height 700 --width 600 \
+--image-path=/usr/share/icons/hicolor/16x16/apps \
+--window-icon=kdeapp --image=kaos --title=KalOg \
+--center --button=Close --wrap --tail --show-uri
+}
+
+### Limit memory usage of one process (needs qarma/zenity)
 # Use first argument as the process to limit 
 # Optionaly add second arg the memory limit or default is 500M
 LimiT() {

@@ -1,4 +1,4 @@
-# This is an example PKGBUILD file for KaoS Linux. Use this as a start to creating your own,
+# This is an example PKGBUILD file for KaOS Linux. Use this as a start to creating your own,
 # and remove these comments. For more information, see 'man PKGBUILD'. 
 # (you can use sed -i 's/#.*$//;/^$/d' /this/PKGBUILD)
 
@@ -36,7 +36,7 @@
 # (at symbol, dot, underscore, plus, hyphen). 
 # Names are not allowed to start with hyphens. 
 #For the sake of consistency, pkgname should match the name of the source tarball of the software
-pkgname=kaos-pkgbuild-proto
+pkgname=PKGNAME
 
 # The version of the package. This should be the same as the version released by the author of the package.
 pkgver=0.1
@@ -50,9 +50,9 @@ pkgrel=1
 # The description of the package. This is recommended to be 80 characters or less and should not include the package name
 # in a self-referencing way, unless the application name differs from the package name.
 # For example, use pkgdesc="Text editor for X11" instead of pkgdesc="Nedit is a text editor for X11".
-pkgdesc="Commented PKGBUILD example for KaoS Linux"
+pkgdesc="Commented PKGBUILD example for KaOS Linux"
 
-# KaoS only support x86_64 so next line shouldn't be changed
+# KaOS only support x86_64 so next line shouldn't be changed
 arch=('x86_64')
 
 # The URL of the official site of the software being packaged.

@@ -1,0 +1,36 @@
+# PKGNAME
+
+### DESCRIPTION
+
+**Website**: URL
+
+#### Depends on **DEPNAME**, **NEXTDEPNAME** available via *Kcp*, so you should
+
+First run kcp in dependance mode with: 
+```
+    * `kcp -di DEPNAME`
+    * `kcp -di NEXTDEPNAME`
+```
+Then you will be able to run:
+
+    * kcp -i PKGNAME
+
+#### From developer(s):
+
+##### Features
+
+```
+    OPTIONALLY ADD MORE DESCRIPTION INFORMATIONS HERE ETC...
+```
+
+#### Changelog
+
+```
+    August 4, 1997: Skynet system first time online...
+```
+
+#### Screenshot
+
+![Screenshot of kcp -h output][1]
+
+[1]: /screenshot.png "NAME"
