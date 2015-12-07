@@ -1,0 +1,62 @@
+; Think of ';' as a replacement for comment, do not forget to delete them once finished!
+; All UPPER words should be changed to your needs 
+; Words starting with @ aren't different, @ symbol is only used by some other kaos automating scripts
+;
+; Use package name as title (should be the same as the ${pkgname} variable in your PKGBUILD file)
+# PKGNAME
+
+; Next should be one line description and should reflect content of ${pkgdesc}
+### DESCRIPTION
+
+; Here indicate package website if any. Add more with something 
+; like '**Repository**: URL' '**Other-link**: URL' etc... One per line
+; But only first one should be required and should be the same as ${url}
+**Website**: URL
+
+; From here everything is optional and should be use when needed/required
+; Here you can list required kcp packages if any: next sentence isn't ruled,
+; but dependancies names should be bold stylized
+#### Depends on **DEPNAME**, **NEXTDEPNAME** available via *Kcp*, so you should
+
+; To keep nice reading, list required packages one by line in 
+; installation order prefixed with '    * kcp -di yourpkgname'
+; DO NOT USE 'kcp -di' anywhere else in this document for parsing purpose.
+; First line is unruled as it is only human oriented:
+First run kcp in dependance mode with: 
+```
+    * `kcp -di DEPNAME`
+    * `kcp -di NEXTDEPNAME`
+```
+; Next part is unruled and is only human oriented:
+Then you will be able to run:
+
+    * kcp -i PKGNAME
+
+; Next comes an optional more complete description for the packages
+; listing its features, changelog or whatever you may want to add.
+; Everything should be in between ``` to reflect citation
+#### From developer(s):
+
+##### Features
+
+```
+    OPTIONALLY ADD MORE DESCRIPTION INFORMATIONS HERE ETC...
+```
+
+#### Changelog
+
+```
+    August 4, 1997: Skynet system first time online...
+```
+
+; Optionaly again, add a screenshot
+; Should be named as pkgname ???
+; Should be located at git repo root ???
+#### Screenshot
+
+![Screenshot of kcp -h output][1]
+
+[1]: /screenshot.png "NAME"
+
+; All above rules respected you can add anything to this document without compromising parsing.
+; Feel free to contribute/discuss at https://www.github.com/kaos-addict/kaos-helpers
