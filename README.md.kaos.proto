@@ -1,8 +1,12 @@
 # PKGNAME
 
-### DESCRIPTION
+### Description
 
-**Website**: URL
+#### Category
+UNCATEGORIZED
+    
+#### Website
+URL
 
 #### Depends on **DEPNAME**, **NEXTDEPNAME** available via *Kcp*, so you should
 
@@ -11,9 +15,13 @@ First run kcp in dependance mode with:
     * `kcp -di DEPNAME`
     * `kcp -di NEXTDEPNAME`
 ```
-Then you will be able to run:
-
+Then run:
+'''
     * kcp -i PKGNAME
+'''
+
+#### Category
+
 
 #### From developer(s):
 
@@ -24,13 +32,7 @@ Then you will be able to run:
 ```
 
 #### Changelog
-
-```
-    August 4, 1997: Skynet system first time online...
-```
+HTTP://CHAGELOG.URL
 
 #### Screenshot
-
-![Screenshot of kcp -h output][1]
-
-[1]: /screenshot.png "NAME"
+![PKGNAME](images/screenshots/screenshot.png)

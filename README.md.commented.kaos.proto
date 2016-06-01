@@ -1,17 +1,32 @@
 ; Think of ';' as a replacement for comment, do not forget to delete them once finished!
-; All UPPER words should be changed to your needs 
-; Words starting with @ aren't different, @ symbol is only used by some other kaos automating scripts
-;
+; All UPPER words should be changed to your needs
 ; Use package name as title (should be the same as the ${pkgname} variable in your PKGBUILD file)
 # PKGNAME
 
 ; Next should be one line description and should reflect content of ${pkgdesc}
-### DESCRIPTION
+#### Description
+
+;Here you should indicate one of the available categories
+;
+;    AudioVideo: Applications for presenting, creating, or processing multimedia (audio/video)
+;    Development: Applications for development
+;    Education: Educational softwares
+;    Game: Games
+;    Graphics: Applications for viewing, creating, or processing graphics
+;    Network: Network applications such as a web browser
+;    Office: Applications for office
+;    Science: Scientific softwares
+;    Settings: Settings applications. The entries may appear in a separate menu or as part of a "Control Center"
+;    System: System applications, "System Tools" such like log viewers or network monitors
+;    Utility: Small utility applications, "Accessories"
+#### Category
+UNCATEGORIZED
 
 ; Here indicate package website if any. Add more with something 
 ; like '**Repository**: URL' '**Other-link**: URL' etc... One per line
 ; But only first one should be required and should be the same as ${url}
-**Website**: URL
+####Website: 
+URL
 
 ; From here everything is optional and should be use when needed/required
 ; Here you can list required kcp packages if any: next sentence isn't ruled,
@@ -32,22 +47,6 @@ Then you will be able to run:
 
     * kcp -i PKGNAME
 
-;Here you should indicate one of available categories
-;
-;    AudioVideo: Applications for presenting, creating, or processing multimedia (audio/video)
-;   Development: Applications for development
-;    Education: Educational softwares
-;    Game: Games
-;    Graphics: Applications for viewing, creating, or processing graphics
-;    Network: Network applications such as a web browser
-;    Office: Applications for office
-;    Science: Scientific softwares
-;    Settings: Settings applications. The entries may appear in a separate menu or as part of a "Control Center"
-;    System: System applications, "System Tools" such like log viewers or network monitors
-;    Utility: Small utility applications, "Accessories"
-#### Category
-Utility
-
 ; Next comes an optional more complete description for the packages
 ; listing its features, changelog or whatever you may want to add.
 ; Everything should be in between ``` to reflect citation
@@ -62,8 +61,7 @@ Utility
 ;    
 ;```
 #### Changelog
-
-http://changelog.url
+HTTP://CHANGELOG.URL
 
 ; Optionaly again, add a screenshot
 ;Is important put first the image into the screenshots directory. The screenshot must be realized in jpg format and aproximatelly 550x500 px.
@@ -71,7 +69,6 @@ http://changelog.url
 ;![PKGNAME](http://www.parlonsgeek.com/Visual-Studio-Code.png")
 
 #### Screenshot
-
 ![PKGNAME](images/screenshots/screenshot.png)
 
 ; All above rules respected you can add anything to this document without compromising parsing.
