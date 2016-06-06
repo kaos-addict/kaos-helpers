@@ -1,0 +1,91 @@
+#!/bin/bash
+# Create new kcp package repo and basics files TODO: recognize url?
+# Use like: mkpkg <sourcesurl>
+#           mkpkg <appname>
+#
+# Where <sourceurl> is a github repo address or a source tarball
+# And <appname> is just the name of an app you would like to create a pkg for
+#
+# It will: 
+# _If repo not existing: 
+#           Create a new repo for appname in KCP, using initgithub
+#           download and/or create basic commented files in ./appname folder.
+# _If repo exists:
+#           Clone existing KCP repo and open files & proto files for editing 
+mkpkg() {
+# Be sure we don't run fancy ls and grep
+    alias ls=/usr/bin/ls
+    alias grep=/usr/bin/grep
+    repo_name=""
+    
+# If no default XEDITOR then use kate
+    [ -z "$XEDITOR" ] && XEDITOR=/usr/bin/kate
+    input=$@
+
+# Arg given
+    if [ -n "${input}" ];then
+        if [ "$(isurl "${input}")" = "yes" ];then
+        
+# Supports github repo as input
+            if [ -n "$(echo "${input}" | grep github.com)" ];then
+                repo_url=${input}
+                
+# Detect https protcol
+                if [ $(echo ${input} | grep "https://github.com/*" ) ];then
+                    repo_auth="$(echo ${input} | sed 's#https://github.com##' | cut -d '/' -f2)"
+                    repo_name=`basename "$(echo ${input} | sed 's#https://github.com/##' | cut -d '/' -f3)" .git`
+                    
+# If https detected, translate to ssh
+                    if [ $(kdialog --yesno \
+    "A Kcp package should be cloned via ssh, $FUNCNAME support only ssh mode...\nShould I translate address and continue with ssh?\nRepository will be at: git@github.com/KaOS-Community-Packages/${repo_name}.git") = "0" ];then
+                        repo_url="git@github.com/KaOS-Community-Packages/${repo_name}.git"
+                        continue
+                    else exit 1
+                    fi
+            
+# Detect git protocol
+                elif [ $(echo ${input} | grep "git@github.com/*" ) ] || [ $(echo ${repo_url} | grep "git@github.com/*" ) ];then
+                    repo_auth="$(echo ${input} | sed 's#git@github.com##' | cut -d '/' -f2)"
+                    repo_name=`basename "$(echo ${input} | sed 's#git@github.com:##' | cut -d '/' -f3)" .git`
+                fi 
+
+# Detect kcp address, or same user, clone repo & edit files, close this script
+                if [ "${repo_auth}" = "KaOS-Community-Packages" ] || [ "${repo_auth}" = "$(git config github.user)" ];then
+                    git clone ${repo_url} && cd ${repo_name} && $XEDITOR -n README.md PKGBUILD & return 0
+
+                else git clone ${repo_url} && cd ${repo_name} && initgithub ${repo_name} && $XEDITOR -n README.md PKGBUILD && return 0 || { 
+                    kdialog --error "Unable to clone given repo, is a folder named ${repo_name} exists?" 
+                    return 1
+                    }
+                fi
+            else kdialog --title="$FUNCNAME" --error "Github.com repo not detected but url detected repo from outside github not supported for now..."
+                return 1
+            fi
+            
+# Arg is not an url, create new empty repo
+        elif [ ! -z ${input} ] && repo_name=${input} && [ ! -d ${repo_name} ];then
+            if [ -n "$(echo ${input} | grep '/')" ];then
+                kdialog --error "Protocol not supported or bad argument"
+                return 1
+            else initgithub $1 || return 1
+            
+# Get PKGBUILD proto file (hopefully pckcp takes care of this for us:)
+                pckcp -g${c} && sed -i "s/PKGNAME/${repo_name}/g" PKGBUILD
+            
+# Get README proto file
+                wget ${g_raw}/kaos-addict/kaos-helpers/master/README.md${_com}.kaos.proto -O README.md
+                sed -i "s/# PKGNAME/# ${repo_name}/" README.md
+                kate -n README.md PKGBUILD & disown            
+                return 0
+            fi
+
+# Arg not detected
+        else kdialog --error "Unable to evaluate argument"
+            return 1
+        fi
+        
+# No arg given
+    else kdialog --error "No arg given or ${repo_name} folder exists, exiting..."
+        return 1
+    fi
+}
